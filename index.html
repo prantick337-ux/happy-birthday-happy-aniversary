@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday My Love 🎈</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&display=swap');
+  body {
+    margin: 0;
+    overflow: hidden;
+    font-family: 'Dancing Script', cursive;
+    background: linear-gradient(180deg, #fde6ea, #fce4ec);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    color: #4a2c2a;
+  }
+  h1 {
+    font-size: 2rem;
+    text-align: center;
+  }
+  .balloon {
+    position: absolute;
+    width: 60px;
+    height: 80px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #ffb6c1, #ff9aae);
+    cursor: pointer;
+    animation: float 10s linear infinite;
+    box-shadow: inset -5px -10px 0 rgba(0,0,0,0.1);
+  }
+  @keyframes float {
+    0% { transform: translateY(100vh) scale(1); opacity: 1; }
+    100% { transform: translateY(-120vh) scale(1.1); opacity: 0.8; }
+  }
+  #numberDisplay {
+    font-size: 3rem;
+    color: #ff80a1;
+    position: fixed;
+    bottom: 20px;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+  }
+  #passwordBox, #messageBox, #wishBox {
+    display: none;
+    text-align: center;
+    max-width: 90%;
+  }
+  input {
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    text-align: center;
+    outline: none;
+  }
+  button {
+    margin-top: 10px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 12px;
+    background: #ffb6c1;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.1rem;
+    cursor: pointer;
+    color: #4a2c2a;
+    transition: background 0.3s;
+  }
+  button:hover {
+    background: #f7a7b3;
+  }
+  .fade-in {
+    animation: fadeIn 1.2s ease forwards;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+</style>
+</head>
+<body>
+
+<h1 id="introText">Tap and burst all 17 balloons 🎈</h1>
+<div id="balloonContainer"></div>
+<div id="numberDisplay"></div>
+
+<div id="passwordBox" class="fade-in">
+  <h1>Enter the secret password 💌</h1>
+  <input type="password" id="passwordInput" placeholder="Type password here">
+  <br>
+  <button onclick="checkPassword()">Submit</button>
+</div>
+
+<div id="messageBox" class="fade-in">
+  <h1>Happiest Birthday My Love 💖</h1>
+  <p>Many many happy returns of the day.<br>I love you forever, my Kartavya 💕</p>
+  <button onclick="playAudio()">▶️ Play Audio</button>
+  <audio id="loveAudio" src="iloveyou.mp3"></audio>
+  <br><br>
+  <button onclick="showWish()">Next 💌</button>
+</div>
+
+<div id="wishBox" class="fade-in">
+  <h1>This is the last present for the birthday girl 🎁</h1>
+  <button onclick="sendWish()">Click here for the last present 💝</button>
+</div>
+
+<audio id="popSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_2bcb86a62c.mp3?filename=pop-sound-effect-109087.mp3"></audio>
+
+<script>
+const totalBalloons = 17;
+let burstCount = 0;
+const container = document.getElementById('balloonContainer');
+const introText = document.getElementById('introText');
+const numberDisplay = document.getElementById('numberDisplay');
+const popSound = document.getElementById('popSound');
+
+for (let i = 0; i < totalBalloons; i++) {
+  const b = document.createElement('div');
+  b.className = 'balloon';
+  b.style.left = Math.random() * 90 + 'vw';
+  b.style.animationDelay = Math.random() * 5 + 's';
+  b.addEventListener('click', () => {
+    popSound.currentTime = 0;
+    popSound.play();
+    b.remove();
+    burstCount++;
+    numberDisplay.textContent = burstCount;
+    numberDisplay.classList.add('fade-in');
+    setTimeout(() => numberDisplay.classList.remove('fade-in'), 500);
+    if (burstCount === totalBalloons) {
+      introText.textContent = "All balloons burst! 🎉";
+      setTimeout(() => {
+        introText.style.display = "none";
+        document.getElementById('passwordBox').style.display = 'block';
+      }, 1000);
+    }
+  });
+  container.appendChild(b);
+}
+
+function checkPassword() {
+  const input = document.getElementById('passwordInput').value.trim();
+  if (input === "18thofnovemberand3rdofdecember") {
+    document.getElementById('passwordBox').style.display = 'none';
+    document.getElementById('messageBox').style.display = 'block';
+  } else {
+    alert("Oops! Wrong password 💫");
+  }
+}
+
+function playAudio() {
+  document.getElementById('loveAudio').play();
+}
+
+function showWish() {
+  document.getElementById('messageBox').style.display = 'none';
+  document.getElementById('wishBox').style.display = 'block';
+}
+
+function sendWish() {
+  const phone = "918850533457";
+  const message = "Happiest birthday my love 💖 Many many happy returns of the day! I love you forever 💕";
+  window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, "_blank");
+}
+</script>
+</body>
+</html>
